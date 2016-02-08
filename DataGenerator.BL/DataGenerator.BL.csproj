@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gender.cs" />
+    <Compile Include="IdentityInfo.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IScriptGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

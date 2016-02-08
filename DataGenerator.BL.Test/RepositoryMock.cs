@@ -8,17 +8,22 @@ namespace DataGenerator.BL.Test
 {
     public class RepositoryMock : IRepository
     {
-        public string GetRandomName()
+        public void Init()
         {
-            return "Иван";
+            throw new NotImplementedException();
         }
 
-        public string GetRandomSurname()
+        public IdentityInfo GetRandomName()
+        {
+            return new IdentityInfo {Identity = "Иван", Gender = Gender.Male};
+        }
+
+        public string GetRandomSurname(Gender gender)
         {
             return "Иванов";
         }
 
-        public string GetRandomPatronymic()
+        public string GetRandomPatronymic(Gender gender)
         {
             return "Иванович";
         }

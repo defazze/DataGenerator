@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,18 +10,45 @@ namespace DataGenerator.BL
 {
     public class Repository : IRepository
     {
-        private readonly List<string> _names;
-        private readonly List<string> _surnames;
-        private readonly List<string> _patronymics;
-        private readonly List<string> _logins;
-        private readonly List<string> _mailDomains;
+        private readonly List<IdentityInfo> _names = new List<IdentityInfo>();
+        private readonly List<IdentityInfo> _surnames = new List<IdentityInfo>();
+        private readonly List<IdentityInfo> _patronymics = new List<IdentityInfo>();
+        private readonly List<string> _logins = new List<string>();
+        private readonly List<string> _mailDomains = new List<string>();
+        
         private readonly int[] _randomUniqNumbers;
         private int _currentLoginIndex = 0;
         private readonly Random _random = new Random();
 
+        private const string MALE_NAMES_PATH = @"Data\MaleNames.txt";
+        private const string FEMALE_NAMES_PATH = @"Data\FemaleNames.txt";
+        private const string SURNAMES_PATH = @"Data\surnames.txt";
+        private const string PATRONYMIC_PATH = @"Data\patronymic.txt";
+        public const string ENGLISH_WORD_PATH = @"EnglishWord.txt";
+
         public Repository()
         {
             _randomUniqNumbers = Enumerable.Range(0, _logins.Count).OrderBy(x => _random.NextDouble()).ToArray();
+        }
+
+        public void Init()
+        {
+            Action<string, Gender> addNames = (a, b) =>
+            {
+                using (TextReader reader = new StreamReader(a))
+                {
+                    while (true)
+                    {
+                        string name = reader.ReadLine();
+                        if (name == null) break;
+
+                        _names.Add(new IdentityInfo() {Gender = b, Identity = name});
+                    }
+                }
+            };
+
+            addNames(MALE_NAMES_PATH, Gender.Male);
+            addNames(FEMALE_NAMES_PATH, Gender.Female);
         }
 
         internal string GetLogin(string line)
@@ -34,19 +62,19 @@ namespace DataGenerator.BL
             return null;
         }
 
-        public string GetRandomName()
+        public IdentityInfo GetRandomName()
         {
             return _names[_random.Next(_names.Count)];
         }
 
-        public string GetRandomSurname()
+        public string GetRandomSurname(Gender gender)
         {
-            return _surnames[_random.Next(_surnames.Count)];
+            return _surnames[_random.Next(_surnames.Count)].Identity;
         }
 
-        public string GetRandomPatronymic()
+        public string GetRandomPatronymic(Gender gender)
         {
-            return _patronymics[_random.Next(_patronymics.Count)];
+            return _patronymics[_random.Next(_patronymics.Count)].Identity;
         }
 
         public string GetRandomLogin()

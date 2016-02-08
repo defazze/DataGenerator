@@ -23,12 +23,13 @@ namespace DataGenerator.BL
 
             user.Login = _repository.GetRandomLogin();
 
-            user.Name = _repository.GetRandomName();
-            user.Surname = _repository.GetRandomSurname();
+            IdentityInfo identityName = _repository.GetRandomName();
+            user.Name = identityName.Identity;
+            user.Surname = _repository.GetRandomSurname(identityName.Gender);
 
             bool isPatronymicExist = _random.Next(100) != 0;
             if (isPatronymicExist)
-                user.Patronymic = _repository.GetRandomPatronymic();
+                user.Patronymic = _repository.GetRandomPatronymic(identityName.Gender);
 
 
             user.Password = _random.Next(1000, 10000).ToString();
