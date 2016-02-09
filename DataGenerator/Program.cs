@@ -13,8 +13,14 @@ namespace DataGenerator
         static void Main(string[] args)
         {
             Repository repository = new Repository();
-
             repository.Init();
+
+            ScriptGenerator generator = new ScriptGenerator(repository);
+            string result = generator.CreateScript(1000);
+
+            Console.WriteLine(result);
+
+            Console.ReadLine();
         }
     }
 }

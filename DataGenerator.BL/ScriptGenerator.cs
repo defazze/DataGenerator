@@ -21,7 +21,7 @@ namespace DataGenerator.BL
         public UserEntity GenerateUser()
         {
             UserEntity user = new UserEntity();
-
+            
             user.Login = _repository.GetRandomLogin();
 
             IdentityInfo identityName = _repository.GetRandomName();
@@ -34,7 +34,7 @@ namespace DataGenerator.BL
 
 
             user.Password = _random.Next(1000, 10000).ToString();
-            user.Email = string.Format(@"{0}@{1}", user.Login, _repository.GetRandomMailDomain());
+            user.Email = $@"{user.Login}@{_repository.GetRandomMailDomain()}";
 
             int year = _random.Next(2010, 2017);
             int month = _random.Next(1, 13);
@@ -48,8 +48,8 @@ namespace DataGenerator.BL
         public string GetValueLine(UserEntity entity)
         {
             string registrationDate = entity.RegistrationDate.ToString("yyyyMMdd");
-            string result = string.Format("VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", entity.Name,
-                entity.Surname, entity.Patronymic, entity.Email, entity.Login, entity.Password, registrationDate);
+            string result =
+                $"VALUES ('{entity.Name}', '{entity.Surname}', '{entity.Patronymic}', '{entity.Email}', '{entity.Login}', '{entity.Password}', '{registrationDate}')";
 
             return result;
         }
@@ -73,7 +73,7 @@ namespace DataGenerator.BL
             {
                 UserEntity user = GenerateUser();
                 string valueLine = GetValueLine(user);
-                builder.Append(valueLine);
+                builder.AppendLine(valueLine);
             }
 
             return builder.ToString();
