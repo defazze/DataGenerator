@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataGenerator.BL
+namespace DataGenerator.Data.Test
 {
-    public enum Gender
+    public class Class1
     {
-        Male = 1,
-        Female = 2
     }
 }

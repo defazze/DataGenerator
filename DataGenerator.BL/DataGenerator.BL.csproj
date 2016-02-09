@@ -39,14 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gender.cs" />
-    <Compile Include="IdentityInfo.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="IScriptGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
     <Compile Include="ScriptGenerator.cs" />
-    <Compile Include="UserEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataGenerator.Data\DataGenerator.Data.csproj">
+      <Project>{a971e6bf-a20b-4721-ae89-37056c34d1b6}</Project>
+      <Name>DataGenerator.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
