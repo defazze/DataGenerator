@@ -85,13 +85,14 @@ namespace DataGenerator.Data
             if (_currentLoginIndex >= _logins.Count)
                 throw new Exception("Из источника данных невозможно выбрать уникальный логин.");
 
-            string login = _logins[_randomUniqNumbers[_currentLoginIndex]];
+            string login;
 
             lock (_key)
             {
+                login = _logins[_randomUniqNumbers[_currentLoginIndex]];
                 _currentLoginIndex++;
             }
-            
+
 
             return login;
         }

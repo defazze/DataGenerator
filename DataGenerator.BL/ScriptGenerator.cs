@@ -34,7 +34,7 @@ namespace DataGenerator.BL
 
 
             user.Password = _random.Next(1000, 10000).ToString();
-            user.Email = $@"{user.Login}@{_repository.GetRandomMailDomain()}";
+            user.Email = string.Format(@"{0}@{1}", user.Login, _repository.GetRandomMailDomain());
 
             int year = _random.Next(2010, 2017);
             int month = _random.Next(1, 13);
@@ -49,7 +49,8 @@ namespace DataGenerator.BL
         {
             string registrationDate = entity.RegistrationDate.ToString("yyyyMMdd");
             string result =
-                $"('{entity.Name}', '{entity.Surname}', '{entity.Patronymic}', '{entity.Email}', '{entity.Login}', '{entity.Password}', '{registrationDate}')";
+                string.Format("('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", entity.Name, entity.Surname,
+                    entity.Patronymic, entity.Email, entity.Login, entity.Password, registrationDate);
 
             return result;
         }
