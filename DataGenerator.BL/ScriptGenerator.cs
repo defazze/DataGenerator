@@ -49,7 +49,7 @@ namespace DataGenerator.BL
         {
             string registrationDate = entity.RegistrationDate.ToString("yyyyMMdd");
             string result =
-                $"VALUES ('{entity.Name}', '{entity.Surname}', '{entity.Patronymic}', '{entity.Email}', '{entity.Login}', '{entity.Password}', '{registrationDate}')";
+                $"('{entity.Name}', '{entity.Surname}', '{entity.Patronymic}', '{entity.Email}', '{entity.Login}', '{entity.Password}', '{registrationDate}')";
 
             return result;
         }
@@ -57,7 +57,7 @@ namespace DataGenerator.BL
         public string GetInsertLine()
         {
             string result =
-                @"INSERT INTO BlogUser (Name, Surname, Patronymic, Email, UserLogin, Password, RegistrationDate)";
+                @"INSERT INTO BlogUser (Name, Surname, Patronymic, Email, UserLogin, Password, RegistrationDate) VALUES";
 
             return result;
         }
@@ -71,6 +71,8 @@ namespace DataGenerator.BL
 
             for (int i = 1; i <= entityCount; i++)
             {
+                if (i > 1) builder.Append(",");
+
                 UserEntity user = GenerateUser();
                 string valueLine = GetValueLine(user);
                 builder.AppendLine(valueLine);

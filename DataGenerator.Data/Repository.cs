@@ -8,6 +8,8 @@ namespace DataGenerator.Data
 {
     public class Repository : IRepository
     {
+        private readonly object _key = new object();
+
         private readonly List<IdentityInfo> _names = new List<IdentityInfo>();
         private readonly List<IdentityInfo> _surnames = new List<IdentityInfo>();
         private readonly List<IdentityInfo> _patronymics = new List<IdentityInfo>();
@@ -41,22 +43,22 @@ namespace DataGenerator.Data
 
             _maleSurnames =
                 _surnames.Where(s => s.Gender == Gender.Male || s.Gender == Gender.Unisex)
-                    .Select(s => s.Identity)
+                    .Select(s => s.Identity.Replace("'",""))
                     .ToArray();
 
             _femaleSurnames =
                 _surnames.Where(s => s.Gender == Gender.Female || s.Gender == Gender.Unisex)
-                    .Select(s => s.Identity)
+                    .Select(s => s.Identity.Replace("'", ""))
                     .ToArray();
 
             _malePatronymic =
                 _patronymics.Where(p => p.Gender == Gender.Male || p.Gender == Gender.Unisex)
-                    .Select(p => p.Identity.Substring(0, 1).ToUpper() + p.Identity.Substring(1))
+                    .Select(p => p.Identity.Substring(0, 1).ToUpper() + p.Identity.Substring(1).Replace("'", ""))
                     .ToArray();
 
             _femalePatronymic =
                 _patronymics.Where(p => p.Gender == Gender.Female || p.Gender == Gender.Unisex)
-                    .Select(p => p.Identity.Substring(0, 1).ToUpper() + p.Identity.Substring(1))
+                    .Select(p => p.Identity.Substring(0, 1).ToUpper() + p.Identity.Substring(1).Replace("'", ""))
                     .ToArray();
         }
 
@@ -84,7 +86,12 @@ namespace DataGenerator.Data
                 throw new Exception("Из источника данных невозможно выбрать уникальный логин.");
 
             string login = _logins[_randomUniqNumbers[_currentLoginIndex]];
-            _currentLoginIndex++;
+
+            lock (_key)
+            {
+                _currentLoginIndex++;
+            }
+            
 
             return login;
         }

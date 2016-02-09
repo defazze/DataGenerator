@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +17,16 @@ namespace DataGenerator
             repository.Init();
 
             ScriptGenerator generator = new ScriptGenerator(repository);
-            string result = generator.CreateScript(1000);
 
-            Console.WriteLine(result);
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            
+            ScriptWriter writer = new ScriptWriter(generator);
+            writer.WriteAsync(@"D:\testScript.sql", 1000);
+
+            watch.Stop();
+
+            Console.WriteLine(watch.ElapsedMilliseconds);
 
             Console.ReadLine();
         }
